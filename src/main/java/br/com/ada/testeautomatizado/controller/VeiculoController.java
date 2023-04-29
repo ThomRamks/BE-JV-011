@@ -13,29 +13,29 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/veiculo")
+@RequestMapping("veiculo")
 public class VeiculoController {
 
     @Autowired
     private VeiculoService veiculoService;
 
 
-    @GetMapping("/todos")
+    @GetMapping("todos")
     public ResponseEntity<Response<List<VeiculoDTO>>> listarTodos(){
         return this.veiculoService.listarTodos();
     }
 
-    @PostMapping("/")
+    @PostMapping("cadastrar")
     public ResponseEntity<Response<VeiculoDTO>> cadastrar(@RequestBody VeiculoDTO veiculoDTO) {
         return this.veiculoService.cadastrar(veiculoDTO);
     }
 
-    @DeleteMapping("/{placa}")
+    @DeleteMapping("{placa}")
     public ResponseEntity<Response<Boolean>> deletarVeiculoPelaPlaca(@PathVariable("placa") String placa) {
         return this.veiculoService.deletarVeiculoPelaPlaca(placa);
     }
 
-    @PutMapping("/")
+    @PutMapping("atualizar")
     public ResponseEntity<Response<VeiculoDTO>> atualizar(@RequestBody VeiculoDTO veiculoDTO) {
         return this.veiculoService.atualizar(veiculoDTO);
     }
