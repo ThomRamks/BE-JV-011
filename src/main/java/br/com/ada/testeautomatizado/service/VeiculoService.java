@@ -1,7 +1,6 @@
 package br.com.ada.testeautomatizado.service;
 
 import br.com.ada.testeautomatizado.dto.VeiculoDTO;
-import br.com.ada.testeautomatizado.exception.ListaVaziaException;
 import br.com.ada.testeautomatizado.exception.PlacaInvalidaException;
 import br.com.ada.testeautomatizado.exception.VeiculoNaoEncontradoException;
 import br.com.ada.testeautomatizado.model.Veiculo;
@@ -52,9 +51,16 @@ public class VeiculoService {
 
     public ResponseEntity<Response<Boolean>> deletarVeiculoPelaPlaca(String placa) {
         try {
-            veiculoRepository.findByPlaca(placa).ifPresent(this.veiculoRepository::delete);
-            return ResponseEntity.ok(new Response<Boolean>("Sucesso", Boolean.TRUE));
-        } catch (Exception e) {
+            this.validacaoPlaca.isPlacaValida(placa);
+            Optional<Veiculo> optionalVeiculo = buscarVeiculoPelaPlaca(placa);
+            if (optionalVeiculo.isPresent()) {
+                this.veiculoRepository.delete(optionalVeiculo.get());
+                Response<Boolean> response = new Response<>("Sucesso", Boolean.TRUE);
+                return ResponseEntity.ok(response);
+            } else {
+                throw new VeiculoNaoEncontradoException();
+            }
+        } catch (VeiculoNaoEncontradoException | PlacaInvalidaException e) {
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
                     .body(new Response<Boolean>(e.getMessage(), Boolean.FALSE));
         }
@@ -90,7 +96,7 @@ public class VeiculoService {
             veiculoDTO = this.veiculoDTOConverter.convertFrom(veiculo);
             return veiculoDTO;
         }).collect(Collectors.toList());
-        if(lista.size() == 0){
+        if (lista.size() == 0) {
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
                     .body(new Response<List<VeiculoDTO>>("Nao ha veiculos a serem listados", new ArrayList<>()));
         } else {

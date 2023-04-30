@@ -1,6 +1,6 @@
 package br.com.ada.testeautomatizado.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.persistence.*;
 import lombok.*;
 

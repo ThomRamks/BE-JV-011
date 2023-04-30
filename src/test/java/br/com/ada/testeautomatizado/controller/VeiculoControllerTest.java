@@ -2,8 +2,6 @@ package br.com.ada.testeautomatizado.controller;
 
 
 import br.com.ada.testeautomatizado.dto.VeiculoDTO;
-import br.com.ada.testeautomatizado.exception.ListaVaziaException;
-import br.com.ada.testeautomatizado.exception.PlacaInvalidaException;
 import br.com.ada.testeautomatizado.exception.VeiculoNaoEncontradoException;
 import br.com.ada.testeautomatizado.model.Veiculo;
 import br.com.ada.testeautomatizado.repository.VeiculoRepository;
