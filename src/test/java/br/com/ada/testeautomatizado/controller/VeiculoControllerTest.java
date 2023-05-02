@@ -82,13 +82,13 @@ class VeiculoControllerTest {
 
         VeiculoDTO veiculoDTO = veiculoDTO();
         veiculoDTO.setPlaca("QWL1231");
-        String clienteString = mapper.writeValueAsString(veiculoDTO);
+        String veiculoString = mapper.writeValueAsString(veiculoDTO);
 
         Mockito.doCallRealMethod().when(validacaoPlaca).isPlacaValida(Mockito.anyString());
 
         MvcResult mvcResult = mockMvc.perform(post("/veiculo/cadastrar")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(clienteString)
+                        .content(veiculoString)
                 )
                 .andExpect(status().isUnprocessableEntity())
                 .andDo(print())
@@ -186,7 +186,7 @@ class VeiculoControllerTest {
     @DisplayName("Atualiza um veículo com sucesso")
     public void deveriaAtualizarVeiculoSucesso() throws Exception {
 
-        String clienteString = mapper.writeValueAsString(veiculoDTO());
+        String veiculoString = mapper.writeValueAsString(veiculoDTO());
 
         Mockito.doCallRealMethod().when(validacaoPlaca).isPlacaValida(Mockito.anyString());
         Mockito.when(veiculoRepository.findByPlaca(Mockito.anyString())).thenReturn(Optional.of(veiculoBD()));
@@ -196,7 +196,7 @@ class VeiculoControllerTest {
 
         MvcResult mvcResult = mockMvc.perform(put("/veiculo/atualizar")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(clienteString))
+                        .content(veiculoString))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andReturn();
